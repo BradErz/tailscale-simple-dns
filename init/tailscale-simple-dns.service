@@ -1,0 +1,15 @@
+[Unit]
+Description=tailscale simple dns to update /etc/hosts from output of tailscale status
+After=tailscale.service
+
+[Service]
+Type=simple
+Environment=DOMAINS=${DOMAINS}
+Environment=DRY_RUN=${DRY_RUN}
+Environment=CRON='${CRON}'
+ExecStart=/usr/local/bin/tailscale-simple-dns
+Restart=on-failure
+StandardOutput=journal
+
+[Install]
+WantedBy=multi-user.target
