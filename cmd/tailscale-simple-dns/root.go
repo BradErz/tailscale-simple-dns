@@ -90,6 +90,11 @@ func (cmd *RootCmd) runSync(ctx context.Context) error {
 	if err != nil {
 		return fmt.Errorf("failed to get tailscale hosts: %w", err)
 	}
+	if len(hosts) == 0 {
+		cmd.lgr.Warn("tailscale status returned no hosts")
+		return nil
+	}
+
 	return cmd.updateHostsFile(hosts)
 }
 
@@ -102,8 +107,13 @@ func (cmd *RootCmd) getTailscaleHosts(ctx context.Context) ([]HostEntry, error) 
 	hostEntries := []HostEntry{}
 
 	for _, peer := range status.Peer {
+		if peer.DNSName == "" {
+			continue
+		}
+
 		hostEntry := HostEntry{
-			Host:      peer.HostName,
+			// we take the tailscale dns name and take only the first part
+			Host:      strings.Split(peer.DNSName, ".")[0],
 			Addresses: []string{},
 		}
 
