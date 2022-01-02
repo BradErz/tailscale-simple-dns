@@ -24,17 +24,27 @@ You can also use environment variables to configure the binary `CRON="@every 1m"
 Its probably more convenient to run this as a daemon  
 
 ## Linux
-Using systemd is probably the simplest way and is how im running it for now...
+Using systemd is probably the simplest way and is how im running it for now... enjoy this beautiful bash script which should install everything
+
 ```bash
-export DOMAINS=example.com
-export DRY_RUN=false
+export VERSION=0.0.1 # pick the latest version
+export DOMAINS=example.com # set your DNS name
+export DRY_RUN=false 
 export CRON="@every 1m"
-sudo curl --output /usr/local/bin/tailscale-simple-dns https://
+sudo curl -sSL "https://github.com/BradErz/tailscale-simple-dns/releases/download/v${VERSION}/tailscale-simple-dns_${VERSION}_$(uname -s)_$(uname -m).tar.gz" | tar -xzvf - 
+rm -f README.md
+sudo mv ./tailscale-simple-dns /usr/local/bin/tailscale-simple-dns
 sudo chmod +x /usr/local/bin/tailscale-simple-dns
 curl -s https://raw.githubusercontent.com/BradErz/tailscale-simple-dns/main/init/tailscale-simple-dns.service | envsubst > /tmp/tailscale-simple-dns.service
 sudo mv /tmp/tailscale-simple-dns.service /etc/systemd/system/tailscale-simple-dns.service
 sudo systemctl daemon-reload
 sudo systemctl enable --now tailscale-simple-dns.service
+```
+
+you can check the status of the service doing the following:
+```bash
+systemctl status tailscale-simple-dns.service
+journalctl -u tailscale-simple-dns.service -f --no-pager
 ```
 
 ## OTHERS (TODO)
