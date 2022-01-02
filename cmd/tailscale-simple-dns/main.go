@@ -6,6 +6,10 @@ import (
 	"os"
 )
 
+var (
+	version = "SNAPSHOT"
+)
+
 func main() {
 	rootCommand, _ := NewRootCmd(os.Stdout)
 

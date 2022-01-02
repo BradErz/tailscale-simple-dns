@@ -27,7 +27,7 @@ type RootCmd struct {
 func NewRootCmd(out io.Writer) (*ffcli.Command, *RootCmd) {
 	log := logrus.New()
 	log.SetOutput(out)
-	lgr := logrus.NewEntry(log)
+	lgr := logrus.NewEntry(log).WithField("version", version)
 
 	cmd := &RootCmd{
 		lgr: lgr,
