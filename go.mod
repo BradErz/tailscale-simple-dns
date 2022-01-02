@@ -1,11 +1,10 @@
-module tailscale-simple-dns
+module github.com/BradErz/tailscale-simple-dns
 
 go 1.17
 
 require (
 	github.com/peterbourgon/ff/v3 v3.1.0
 	github.com/robfig/cron v1.2.0
-	github.com/robfig/cron/v3 v3.0.0
 	github.com/sirupsen/logrus v1.8.1
 	github.com/txn2/txeh v1.3.0
 	tailscale.com v1.18.2

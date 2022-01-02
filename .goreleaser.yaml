@@ -7,12 +7,23 @@ before:
     # you may remove this if you don't need go generate
     - go generate ./...
 builds:
-  - env:
+  - main: ./cmd/tailscale-simple-dns
+    env:
       - CGO_ENABLED=0
+    goarch:
+      - amd64
+      - arm
+      - arm64
     goos:
       - linux
       - windows
       - darwin
+    ignore:
+    - goos: darwin
+      goarch: 386
+    - goos: windows
+      goarch: arm64
+
 archives:
   - replacements:
       darwin: Darwin
@@ -20,6 +31,7 @@ archives:
       windows: Windows
       386: i386
       amd64: x86_64
+
 checksum:
   name_template: 'checksums.txt'
 snapshot:
