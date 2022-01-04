@@ -1,2 +1,3 @@
 /tailscale-simple-dns
 dist/
+.vscode
